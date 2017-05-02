@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="background_top">#5A77CE</color>
+    <color name="background">#6483DC</color>
+    <color name="background_seat">#E2F4FF</color>
+    <color name="white">#F6FCFF</color>
+    <color name="background_schedule">#CFE7FB</color>
+    <color name="grey">#C9DBE7</color>
+    <color name="grey_black">#8C8E8E</color>
+</resources>

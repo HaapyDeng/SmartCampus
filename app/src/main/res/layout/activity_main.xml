@@ -239,7 +239,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:background="@color/background_seat"
                 android:orientation="vertical">
 
@@ -249,7 +249,7 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/shape_corner"
                     android:gravity="center"
@@ -262,16 +262,148 @@
                     android:layout_height="10dp" />
             </LinearLayout>
 
-
-            <GridView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/background_seat"></GridView>
+                android:layout_height="350dp"
+                android:background="@color/background_seat">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/shape_bottom_corner" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shape_left_b_t_corner"
+                            android:ems="1"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="学校公告"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_right_t_corner"
+                            android:gravity="center"
+                            android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
+                            android:textColor="@color/background_top"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_right_b_corner"
+                            android:gravity="center"
+                            android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
+                            android:textColor="@color/grey_black"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="120dp"
+                    android:background="@color/background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@drawable/shape_left_b_t_corner"
+                            android:ems="1"
+                            android:gravity="center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="班级通知"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_right_t_corner"
+                            android:gravity="center"
+                            android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
+                            android:textColor="@color/background_top"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_right_b_corner"
+                            android:gravity="center"
+                            android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
+                            android:textColor="@color/grey_black"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView
@@ -707,6 +839,61 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_top_corner"
+                    android:gravity="center"
+                    android:text="学校新闻"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:text="恭喜XXX同学被清华大学提前录取"
+                    android:textColor="@color/background_top"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/background_seat"
+                    android:gravity="center"
+                    android:text="高三六班获得省三好班集体称号"
+                    android:textColor="@color/background_top"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_bottom_corner"
+                    android:gravity="center"
+                    android:text="学校电子班级牌开通"
+                    android:textColor="@color/background_top"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <ImageView
@@ -730,181 +917,12 @@
             android:layout_height="match_parent"
             android:background="@color/background" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="15">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/shape_left_b_t_corner"
-                        android:ems="1"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="学校公告"
-                        android:textColor="@color/white"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_right_t_corner"
-                        android:gravity="center"
-                        android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
-                        android:textColor="@color/background_top"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_right_b_corner"
-                        android:gravity="center"
-                        android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
-                        android:textColor="@color/grey_black"
-                        android:textSize="15dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/background" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="15">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:background="@drawable/shape_left_b_t_corner"
-                        android:ems="1"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="班级通知"
-                        android:textColor="@color/white"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_right_t_corner"
-                        android:gravity="center"
-                        android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
-                        android:textColor="@color/background_top"
-                        android:textSize="15dp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/shape_right_b_corner"
-                        android:gravity="center"
-                        android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
-                        android:textColor="@color/grey_black"
-                        android:textSize="15dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:background="@color/background" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_weight="7"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_top_corner"
-                android:gravity="center"
-                android:text="学校新闻"
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="恭喜XXX同学被清华大学提前录取"
-                android:textColor="@color/background_top"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/background_seat"
-                android:gravity="center"
-                android:text="高三六班获得省三好班集体称号"
-                android:textColor="@color/background_top"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_bottom_corner"
-                android:gravity="center"
-                android:text="学校电子班级牌开通"
-                android:textColor="@color/background_top"
-                android:textSize="20dp" />
-        </LinearLayout>
 
         <ImageView
             android:layout_width="30dp"

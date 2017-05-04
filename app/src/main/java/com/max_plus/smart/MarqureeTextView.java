@@ -2,6 +2,7 @@ package com.max_plus.smart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -24,6 +25,13 @@ public class MarqureeTextView extends TextView {
     @SuppressLint("NewApi")
     public MarqureeTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean focused) {
+        if (focused) {
+            super.onWindowFocusChanged(focused);
+        }
     }
 
     @Override

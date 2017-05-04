@@ -10,4 +10,5 @@
     <color name="background_schedule">#CFE7FB</color>
     <color name="grey">#C9DBE7</color>
     <color name="grey_black">#8C8E8E</color>
+    <color name="red_text">#8D0000</color>
 </resources>

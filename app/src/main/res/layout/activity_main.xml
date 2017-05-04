@@ -320,24 +320,32 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.max_plus.smart.MarqureeTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/shape_right_t_corner"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
                             android:textColor="@color/background_top"
                             android:textSize="15dp" />
 
-                        <TextView
+                        <com.max_plus.smart.MarqureeTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/shape_right_b_corner"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
                             android:textColor="@color/grey_black"
                             android:textSize="15dp" />
@@ -380,24 +388,32 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.max_plus.smart.MarqureeTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/shape_right_t_corner"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="由于天气原因，今天的早操取消，请各班同学在教室等候班主任，由各班班主任自由安排"
                             android:textColor="@color/background_top"
                             android:textSize="15dp" />
 
-                        <TextView
+                        <com.max_plus.smart.MarqureeTextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/shape_right_b_corner"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center"
+                            android:singleLine="true"
                             android:text="上一条公告：本周将重点检查班级卫生情况，请各班班主任及同学重视"
                             android:textColor="@color/grey_black"
                             android:textSize="15dp" />
@@ -860,35 +876,48 @@
                     android:textColor="@color/white"
                     android:textSize="20dp" />
 
-                <TextView
+                <com.max_plus.smart.MarqureeTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+
                     android:layout_weight="1"
                     android:background="@color/white"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:text="恭喜XXX同学被清华大学提前录取"
                     android:textColor="@color/background_top"
                     android:textSize="20dp" />
 
-                <TextView
+                <com.max_plus.smart.MarqureeTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/background_seat"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:text="高三六班获得省三好班集体称号"
                     android:textColor="@color/background_top"
                     android:textSize="20dp" />
 
-                <TextView
+                <com.max_plus.smart.MarqureeTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/shape_bottom_corner"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:gravity="center"
+                    android:singleLine="true"
                     android:text="学校电子班级牌开通"
                     android:textColor="@color/background_top"
                     android:textSize="20dp" />

@@ -30,14 +30,16 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:gravity="center"
-            android:text="小明明" />
+            android:text="小明明"
+            android:textColor="@color/background_top" />
 
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:gravity="center"
-            android:text="缺勤" />
+            android:text="缺勤"
+            android:textColor="@color/background_top" />
     </LinearLayout>
 
 

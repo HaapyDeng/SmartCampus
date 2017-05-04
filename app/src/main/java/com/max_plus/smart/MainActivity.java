@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 49; i++) {
             UserBean user = new UserBean();
             user.setName("小明明");
             user.setState("缺勤");
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class Myadapter extends RecyclerView.Adapter<Myadapter.MyViewHolder> {
         private final ArrayList<UserBean> data;
+
         public Myadapter(ArrayList<UserBean> data) {
             this.data = data;
         }
@@ -73,11 +74,12 @@ public class MainActivity extends AppCompatActivity {
         class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView tv_name, tv_state;
             public ImageView iv_img;
+
             public MyViewHolder(View itemView) {
                 super(itemView);
-                tv_name = (TextView) findViewById(R.id.tv_name);
-                tv_state = (TextView) findViewById(R.id.tv_state);
-                iv_img = (ImageView) findViewById(R.id.iv_img);
+                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+                tv_state = (TextView) itemView.findViewById(R.id.tv_state);
+                iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
             }
         }
 

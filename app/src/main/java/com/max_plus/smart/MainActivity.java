@@ -4,15 +4,20 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.koushikdutta.async.ByteBufferList;
 import com.koushikdutta.async.DataEmitter;
@@ -31,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
     private ArrayList<UserBean> data = new ArrayList<UserBean>();
-    public static String wsUrl = "ws://192.168.1.103:9502";
+    public static String wsUrl = "ws://192.168.1.112:9502";
     private int state = 0;
 
     @Override
@@ -40,8 +45,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initData();
         initView();
-
     }
+
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    //完成主界面更新,拿到数据
+                    initView();
+                    break;
+                case 1:
+                    Toast.makeText(MainActivity.this, "连接服务器成功", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    Toast.makeText(MainActivity.this, "连接服务器失败，请重启设备", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    Toast.makeText(MainActivity.this, "连接服务器失败，请重启设备", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
+
 
     private void initData() {
 
@@ -59,41 +90,82 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("I got a string: " + s);
                         try {
                             JSONObject jsonObject = new JSONObject(s);
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                UserBean user = new UserBean();
-                                JSONObject jsondata = jsonArray.getJSONObject(i);
-                                user.setName(jsondata.getString("username"));
-                                state = jsondata.getInt("state");
-                                switch (state) {
-                                    case 0:
-                                        user.setState(String.valueOf(R.string.absence));
-                                        user.setImg(R.drawable.img_absenteeism);
-                                        break;
-                                    case 1:
-                                        user.setState(String.valueOf(R.string.normal));
-                                        user.setImg(R.drawable.img_normal);
-                                        break;
-                                    case 2:
-                                        user.setState(String.valueOf(R.string.late));
-                                        user.setImg(R.drawable.img_late);
-                                        break;
-                                    default:
-                                        user.setState(String.valueOf(R.string.absence));
-                                        user.setImg(R.drawable.img_absenteeism);
+                            if (jsonObject.has("status")) {
+                                if (jsonObject.get("status").equals(1)) {
+                                    mHandler.sendEmptyMessage(1);
+
+                                    //需要数据传递，用下面方法；
+                                    Message msg = new Message();
+                                    msg.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
+                                    mHandler.sendMessage(msg);
+                                } else {
+                                    mHandler.sendEmptyMessage(2);
+
+                                    //需要数据传递，用下面方法；
+                                    Message msg = new Message();
+                                    msg.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
+                                    mHandler.sendMessage(msg);
                                 }
-                                data.add(user);
                             }
+                            if (jsonObject.has("data")) {
+//                                if (jsonObject.getJSONObject("data").has("error")) {
+//                                    mHandler.sendEmptyMessage(3);
+//
+//                                    //需要数据传递，用下面方法；
+//                                    Message msg = new Message();
+//                                    msg.obj = jsonObject.getJSONObject("data").getString("error");//可以是基本类型，可以是对象，可以是List、map等；
+//                                    mHandler.sendMessage(msg);
+//                                }
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                if (data.size() != 0) {
+                                    data.clear();
+                                }
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    UserBean user = new UserBean();
+                                    JSONObject jsondata = jsonArray.getJSONObject(i);
+                                    user.setName(jsondata.getString("username"));
+                                    state = jsondata.getInt("state");
+                                    switch (state) {
+                                        case 0:
+                                            user.setState(getString(R.string.absence));
+                                            user.setImg(R.drawable.img_absenteeism);
+                                            break;
+
+                                        case 1:
+                                            user.setState(getString(R.string.normal));
+                                            user.setImg(R.drawable.img_normal);
+                                            break;
+                                        case 2:
+                                            user.setState(getString(R.string.late));
+                                            user.setImg(R.drawable.img_late);
+                                            break;
+                                        default:
+                                            user.setState(getString(R.string.absence));
+                                            user.setImg(R.drawable.img_absenteeism);
+                                    }
+
+                                    data.add(user);
+                                }
+
+                                mHandler.sendEmptyMessage(0);
+
+                                //需要数据传递，用下面方法；
+                                Message msg = new Message();
+                                msg.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
+                                mHandler.sendMessage(msg);
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
                 });
                 webSocket.setClosedCallback(new CompletedCallback() {
                     @Override
                     public void onCompleted(Exception ex) {
                         Log.d("websocket连接失败", ex.toString());
-                        initData();
+//                        initData();
                     }
                 });
                 webSocket.setDataCallback(new DataCallback() {
@@ -110,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mGridLayoutManager = new GridLayoutManager(this, 7);
+//        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         //设置固定大小
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -165,19 +238,44 @@ public class MainActivity extends AppCompatActivity {
 
     public String jsonMacData() {
         String jsonresult = "";//定义返回字符串
-        JSONObject object = new JSONObject();//创建一个总的对象，这个对象对整个json串
+//        JSONObject object = new JSONObject();//创建一个总的对象，这个对象对整个json串
         try {
             JSONArray jsonarray = new JSONArray();//json数组，里面包含的内容为pet的所有对象
             JSONObject jsonObj = new JSONObject();//pet对象，json形式
             jsonObj.put("mac", getLocalMacAddress());//向pet对象里面添加值
             // 把每个数据当作一对象添加到数组里
             jsonarray.put(jsonObj);//向json数组里面添加pet对象
-            object.put("data", jsonarray);//向总对象里面添加包含pet的数组
-            jsonresult = object.toString();//生成返回字符串
+//            object.put("data", jsonarray);//向总对象里面添加包含pet的数组
+            jsonresult = jsonarray.toString();//生成返回字符串
         } catch (JSONException e) {
             e.printStackTrace();
         }
         Log.d("生成的json串为:", jsonresult);
         return jsonresult;
+    }
+
+    //创建一个类LinearLayoutManagerWrapper继承LinearLayoutManager，重写onLayoutChildren方法
+    //防止RecyclerView在刷新数据的时候会出现异常，导致崩溃
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

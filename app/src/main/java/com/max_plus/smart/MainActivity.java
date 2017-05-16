@@ -8,9 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<UserBean> data = new ArrayList<UserBean>();
     public static String wsUrl = "ws://192.168.1.112:9502";
     private int state = 0;
+    private TextView tv_english;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initData();
         initView();
+        tv_english = (TextView) findViewById(R.id.tv_e);
+        tv_english.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this, TreeDataActivity.class);
+//                startActivity(intent);
+            }
+        });
     }
 
     Handler mHandler = new Handler() {
@@ -66,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 case 3:
                     Toast.makeText(MainActivity.this, "连接服务器失败，请重启设备", Toast.LENGTH_SHORT).show();
                     break;
+                case 4:
+                    Toast.makeText(MainActivity.this, "I am running!!!!!", Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     break;
             }
@@ -75,7 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initData() {
-
+//        for (int i = 0; i < 49; i++) {
+//            UserBean user = new UserBean();
+//            user.setName("学生" + (i + 1));
+//            user.setState(getString(R.string.absence));
+//            user.setImg(R.drawable.img_absenteeism);
+//            data.add(user);
         AsyncHttpClient.getDefaultInstance().websocket(wsUrl, "my-protocol", new AsyncHttpClient.WebSocketConnectCallback() {
             @Override
             public void onCompleted(Exception ex, final WebSocket webSocket) {
@@ -88,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
                 webSocket.setStringCallback(new WebSocket.StringCallback() {
                     public void onStringAvailable(String s) {
                         System.out.println("I got a string: " + s);
+                        //需要数据传递，用下面方法；
+                        mHandler.sendEmptyMessage(4);
+                        Message msg1 = new Message();
+                        msg1.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
+                        mHandler.sendMessage(msg1);
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             if (jsonObject.has("status")) {
@@ -107,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                     mHandler.sendMessage(msg);
                                 }
                             }
+
                             if (jsonObject.has("data")) {
 //                                if (jsonObject.getJSONObject("data").has("error")) {
 //                                    mHandler.sendEmptyMessage(3);
@@ -149,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
                                 mHandler.sendEmptyMessage(0);
 
-                                //需要数据传递，用下面方法；
                                 Message msg = new Message();
                                 msg.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
                                 mHandler.sendMessage(msg);
@@ -176,16 +197,17 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
+
 
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mGridLayoutManager = new GridLayoutManager(this, 7);
+        mGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
 //        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         //设置固定大小
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, 7, GridLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(new Myadapter(data));
     }
 
@@ -254,19 +276,22 @@ public class MainActivity extends AppCompatActivity {
         return jsonresult;
     }
 
-    //创建一个类LinearLayoutManagerWrapper继承LinearLayoutManager，重写onLayoutChildren方法
     //防止RecyclerView在刷新数据的时候会出现异常，导致崩溃
-    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
-        public WrapContentLinearLayoutManager(Context context) {
-            super(context);
+    public class WrapContentLinearLayoutManager extends GridLayoutManager {
+
+
+        public WrapContentLinearLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+            super(context, spanCount, orientation, reverseLayout);
         }
 
-        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
-            super(context, orientation, reverseLayout);
-        }
+        @Override
+        public void onLayoutCompleted(RecyclerView.State state) {
+            try {
+                super.onLayoutCompleted(state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
 
-        public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            super(context, attrs, defStyleAttr, defStyleRes);
         }
 
         @Override

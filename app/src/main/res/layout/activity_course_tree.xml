@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_course_tree"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.max_plus.smart.CourseTreeActivity">
+
+    <ExpandableListView
+
+        android:id="@+id/ev_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ExpandableListView>
+
+    <SurfaceView
+        android:id="@+id/video_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ev_list" />
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.max_plus.smart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -48,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         tv_english.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(MainActivity.this, TreeDataActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, CourseTreeActivity.class);
+                startActivity(intent);
             }
         });
     }

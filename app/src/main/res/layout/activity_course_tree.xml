@@ -14,10 +14,5 @@
 
     </ExpandableListView>
 
-    <SurfaceView
-        android:id="@+id/video_surface"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ev_list" />
 
 </RelativeLayout>

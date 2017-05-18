@@ -1,6 +1,8 @@
 package com.max_plus.smart;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -37,13 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<UserBean> data = new ArrayList<UserBean>();
     public static String wsUrl = "ws://192.168.1.112:9502";
     private int state = 0;
+    private MyAdapter mAdapter;
     private TextView tv_english;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initData();
+        initData2();
         initView();
         tv_english = (TextView) findViewById(R.id.tv_e);
         tv_english.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
                 case 4:
                     Toast.makeText(MainActivity.this, "I am running!!!!!", Toast.LENGTH_SHORT).show();
                     break;
+                case 5:
+
+                    String fixState = msg.getData().getString("a");
+                    System.out.println(fixState);
+                    Toast.makeText(MainActivity.this, fixState, Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     break;
             }
@@ -85,14 +94,17 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    private void initData2() {
+        for (int i = 0; i < 49; i++) {
+            UserBean user = new UserBean();
+            user.setName("学生" + (i + 1));
+            user.setState(getString(R.string.absence));
+            user.setImg(R.drawable.img_absenteeism);
+            data.add(user);
+        }
+    }
 
     private void initData() {
-//        for (int i = 0; i < 49; i++) {
-//            UserBean user = new UserBean();
-//            user.setName("学生" + (i + 1));
-//            user.setState(getString(R.string.absence));
-//            user.setImg(R.drawable.img_absenteeism);
-//            data.add(user);
         AsyncHttpClient.getDefaultInstance().websocket(wsUrl, "my-protocol", new AsyncHttpClient.WebSocketConnectCallback() {
             @Override
             public void onCompleted(Exception ex, final WebSocket webSocket) {
@@ -209,49 +221,51 @@ public class MainActivity extends AppCompatActivity {
         //设置固定大小
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, 7, GridLayoutManager.VERTICAL, false));
-        mRecyclerView.setAdapter(new Myadapter(data));
-    }
+//        mRecyclerView.setAdapter(new MyAdapter(data));
+        mAdapter = new MyAdapter(data);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+//                Toast.makeText(MainActivity.this, data.get(position).getName(), Toast.LENGTH_LONG).show();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("请选择修改状态");
+                final String[] state = {"缺勤", "正常", "迟到"};
+                final String[] chooseState = {"正常"};
+                //    设置一个单项选择下拉框
+                builder.setSingleChoiceItems(state, 1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println(which);
+                        Toast.makeText(MainActivity.this, "状态为：" + state[which], Toast.LENGTH_SHORT).show();
+                        chooseState[0] = state[which].toString();
 
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-    private class Myadapter extends RecyclerView.Adapter<Myadapter.MyViewHolder> {
-        private final ArrayList<UserBean> data;
-
-        public Myadapter(ArrayList<UserBean> data) {
-            this.data = data;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.item, null);
-            MyViewHolder viewHolder = new MyViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.tv_name.setText(data.get(position).getName());
-            holder.tv_state.setText(data.get(position).getState());
-            holder.iv_img.setBackgroundResource(data.get(position).getImg());
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            public TextView tv_name, tv_state;
-            public ImageView iv_img;
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-                tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-                tv_state = (TextView) itemView.findViewById(R.id.tv_state);
-                iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //需要数据传递，用下面方法；
+                        Message msg = new Message();
+                        msg.what = 5;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("a", chooseState[0]);
+                        msg.setData(bundle);
+                        mHandler.sendMessage(msg);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                builder.show();
             }
-        }
-
+        });
     }
+
 
     public String getLocalMacAddress() {
         WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);

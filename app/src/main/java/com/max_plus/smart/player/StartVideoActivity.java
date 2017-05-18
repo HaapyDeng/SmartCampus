@@ -3,6 +3,7 @@ package com.max_plus.smart.player;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -101,7 +102,8 @@ public class StartVideoActivity extends Activity {
                     .equals(android.os.Environment.MEDIA_MOUNTED);//判断sd卡是否存在
             if (sdCardExist) {
                 //获取跟目录
-                mediaPlayer.setDataSource("/sdcard/1489744357244.mp4");
+//                mediaPlayer.setDataSource(this, Uri.parse("/sdcard/1489744357244.mp4"));
+                mediaPlayer.setDataSource(this, Uri.parse("http://zv.3gv.ifeng.com/live/zhongwen800k.m3u8"));
             } else {
                 Toast.makeText(this, "SD卡不存在", Toast.LENGTH_LONG).show();
             }

@@ -41,13 +41,23 @@ public class MainActivity extends AppCompatActivity {
     private int state = 0;
     private MyAdapter mAdapter;
     private TextView tv_english;
+    private int lateCount = 0, normalCount = 0, absenceCount = 0;
+    private TextView total, late, absence;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initData2();
+        initData();
         initView();
+        //显示统计人数
+        total = (TextView) findViewById(R.id.tv_total);
+        late = (TextView) findViewById(R.id.tv_late);
+        absence = (TextView) findViewById(R.id.tv_absenceCount);
+        total.setText("" + (lateCount + normalCount + absenceCount));
+        late.setText("" + lateCount);
+        absence.setText("" + absenceCount);
+        //点击课程跳转
         tv_english = (TextView) findViewById(R.id.tv_e);
         tv_english.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,26 +174,27 @@ public class MainActivity extends AppCompatActivity {
                                         case 0:
                                             user.setState(getString(R.string.absence));
                                             user.setImg(R.drawable.img_absenteeism);
+                                            absenceCount = absenceCount + 1;
                                             break;
 
                                         case 1:
                                             user.setState(getString(R.string.normal));
                                             user.setImg(R.drawable.img_normal);
+                                            normalCount = normalCount + 1;
                                             break;
                                         case 2:
                                             user.setState(getString(R.string.late));
                                             user.setImg(R.drawable.img_late);
+                                            lateCount = lateCount + 1;
                                             break;
                                         default:
-                                            user.setState(getString(R.string.absence));
-                                            user.setImg(R.drawable.img_absenteeism);
+                                            break;
                                     }
 
                                     data.add(user);
                                 }
 
                                 mHandler.sendEmptyMessage(0);
-
                                 Message msg = new Message();
                                 msg.obj = "";//可以是基本类型，可以是对象，可以是List、map等；
                                 mHandler.sendMessage(msg);
@@ -214,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initView() {
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mGridLayoutManager = new GridLayoutManager(this, 7);
         mGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
@@ -246,6 +258,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        if (i == 0) {
+                            absenceCount = absenceCount + 1;
+                            normalCount = normalCount - 1;
+                        } else if (i == 1) {
+                            normalCount = normalCount + 1;
+                            
+                        } else {
+                            normalCount = normalCount + 1;
+                        }
                         //需要数据传递，用下面方法；
                         Message msg = new Message();
                         msg.what = 5;
@@ -253,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                         bundle.putString("a", chooseState[0]);
                         msg.setData(bundle);
                         mHandler.sendMessage(msg);
+
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

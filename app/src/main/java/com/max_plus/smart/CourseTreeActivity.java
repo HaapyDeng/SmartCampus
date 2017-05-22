@@ -43,9 +43,15 @@ public class CourseTreeActivity extends Activity {
         exlist_text.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent();
-                intent.setClass(CourseTreeActivity.this, StartVideoActivity.class);
-                startActivity(intent);
+                if (gData.get(groupPosition).getgId().equals("1")) {
+                    Intent intent = new Intent();
+                    intent.setClass(CourseTreeActivity.this, StartVideoActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent2 = new Intent();
+                    intent2.setClass(CourseTreeActivity.this, HomeWorkActivity.class);
+                    startActivity(intent2);
+                }
                 return true;
             }
         });
@@ -57,11 +63,25 @@ public class CourseTreeActivity extends Activity {
         gData = new ArrayList<Group>();
         iData = new ArrayList<ArrayList<Item>>();
         lData = new ArrayList<Item>();
-        for (int i = 0; i < 5; i++) {
-            lData.add(new Item("Unit" + " " + i, "" + (i + 10)));
+        for (int j = 1; j < 3; j++) {
+//            iData.get(j).add(lData);
+            if (j == 1) {
+                iData.add(lData);
+                gData.add(new Group("英语课程微视频", "1"));
+            }
+            if (j == 2) {
+//                for (int i = 1; i < 10; i++) {
+//                    lData.add(new Item("Unit" + " " + i, "" + (i + 10)));
+//                }
+                lData.add(new Item("Unit 1", "1"));
+                lData.add(new Item("Unit 2", "2"));
+                lData.add(new Item("Unit 3", "3"));
+                lData.add(new Item("Unit 4", "4"));
+                lData.add(new Item("Unit 5", "5"));
+                iData.add(lData);
+                iData.add(lData);
+                gData.add(new Group("英语课程作业安排", "2"));
+            }
         }
-        iData.add(lData);
-        gData.add(new Group("English", "1"));
     }
-
 }

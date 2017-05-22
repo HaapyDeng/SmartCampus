@@ -103,7 +103,8 @@ public class StartVideoActivity extends Activity {
             if (sdCardExist) {
                 //获取跟目录
 //                mediaPlayer.setDataSource(this, Uri.parse("/sdcard/1489744357244.mp4"));
-                mediaPlayer.setDataSource(this, Uri.parse("http://zv.3gv.ifeng.com/live/zhongwen800k.m3u8"));
+//                http://119.90.41.31/video/2358206.flv?t=0.9942962663415061
+                mediaPlayer.setDataSource(this, Uri.parse("http://119.90.41.31/video/2358206.flv?t=0.9942962663415061"));
             } else {
                 Toast.makeText(this, "SD卡不存在", Toast.LENGTH_LONG).show();
             }

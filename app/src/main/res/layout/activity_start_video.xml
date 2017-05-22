@@ -3,12 +3,14 @@
     android:id="@+id/activity_start_video"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <SurfaceView
         android:id="@+id/video_surface"
-        android:layout_width="360dp"
-        android:layout_height="240dp"></SurfaceView>
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="0.94"></SurfaceView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +21,7 @@
             android:id="@+id/button_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="buttonClick"
             android:text="play"></Button>
 
@@ -26,6 +29,7 @@
             android:id="@+id/button_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="buttonClick"
             android:text="pause"></Button>
 
@@ -33,6 +37,7 @@
             android:id="@+id/button_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="buttonClick"
             android:text="stop"></Button>
 
@@ -40,6 +45,7 @@
             android:id="@+id/button_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:onClick="buttonClick"
             android:text="reset"></Button>
     </LinearLayout>

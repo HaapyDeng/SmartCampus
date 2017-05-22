@@ -10,6 +10,17 @@ public class UserBean {
     public String state;
     public int img;
 
+    public int getTag() {
+        return tag;
+    }
+
+    public int setTag(int tag) {
+        this.tag = tag;
+        return tag;
+    }
+
+    public int tag;
+
     public int getId() {
         return id;
     }

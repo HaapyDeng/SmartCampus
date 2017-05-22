@@ -13,10 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,21 +39,24 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     private TextView tv_english;
     private int lateCount = 0, normalCount = 0, absenceCount = 0;
-    private TextView total, late, absence;
+    private TextView total, late, absence, tv_nomal;
+    private int tag = 5, totalCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initData();
+        initData2();
         initView();
         //显示统计人数
         total = (TextView) findViewById(R.id.tv_total);
         late = (TextView) findViewById(R.id.tv_late);
         absence = (TextView) findViewById(R.id.tv_absenceCount);
-        total.setText("" + (lateCount + normalCount + absenceCount));
+        tv_nomal = (TextView) findViewById(R.id.tv_nomal);
+        total.setText("" + totalCount);
         late.setText("" + lateCount);
         absence.setText("" + absenceCount);
+        tv_nomal.setText("" + normalCount);
         //点击课程跳转
         tv_english = (TextView) findViewById(R.id.tv_e);
         tv_english.setOnClickListener(new View.OnClickListener() {
@@ -92,10 +92,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "I am running!!!!!", Toast.LENGTH_SHORT).show();
                     break;
                 case 5:
-
-                    String fixState = msg.getData().getString("a");
-                    System.out.println(fixState);
-                    Toast.makeText(MainActivity.this, fixState, Toast.LENGTH_SHORT).show();
+                    total = (TextView) findViewById(R.id.tv_total);
+                    late = (TextView) findViewById(R.id.tv_late);
+                    absence = (TextView) findViewById(R.id.tv_absenceCount);
+                    total.setText("" + totalCount);
+                    late.setText("" + lateCount);
+                    tv_nomal.setText("" + normalCount);
+                    absence.setText("" + absenceCount);
+                    initView();
                     break;
                 default:
                     break;
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             user.setState(getString(R.string.absence));
             user.setImg(R.drawable.img_absenteeism);
             data.add(user);
+            totalCount = totalCount + 1;
+            absenceCount = absenceCount + 1;
         }
     }
 
@@ -238,16 +244,18 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, final int position) {
 //                Toast.makeText(MainActivity.this, data.get(position).getName(), Toast.LENGTH_LONG).show();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("请选择修改状态");
                 final String[] state = {"缺勤", "正常", "迟到"};
                 final String[] chooseState = {"正常"};
+                final int[] chooseId = {0};
                 //    设置一个单项选择下拉框
-                builder.setSingleChoiceItems(state, 1, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(state, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        chooseId[0] = which;
                         System.out.println(which);
                         Toast.makeText(MainActivity.this, "状态为：" + state[which], Toast.LENGTH_SHORT).show();
                         chooseState[0] = state[which].toString();
@@ -258,22 +266,63 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (i == 0) {
-                            absenceCount = absenceCount + 1;
-                            normalCount = normalCount - 1;
-                        } else if (i == 1) {
-                            normalCount = normalCount + 1;
-                            
+
+                        if (chooseId[0] == 0) {
+                            if (data.get(position).getState().equals(getString(R.string.normal))) {
+                                absenceCount = absenceCount + 1;
+                                normalCount = normalCount - 1;
+                            } else if (data.get(position).getState().equals(getString(R.string.late))) {
+                                absenceCount = absenceCount + 1;
+                                lateCount = lateCount - 1;
+                            } else if (data.get(position).getState().equals(getString(R.string.absence))) {
+                                absenceCount = absenceCount;
+                            }
+                            data.get(position).setImg(R.drawable.img_absenteeism);
+                            data.get(position).setState(getString(R.string.absence));
+                            data.get(position).setTag(1);
+                            //需要数据传递，用下面方法；
+                            Message msg = new Message();
+                            msg.what = 5;
+                            mHandler.sendMessage(msg);
+                        } else if (chooseId[0] == 1) {
+                            if (data.get(position).getState().equals(getString(R.string.absence))) {
+                                normalCount = normalCount + 1;
+                                absenceCount = absenceCount - 1;
+                            } else if (data.get(position).getState().equals(getString(R.string.late))) {
+                                lateCount = lateCount + 1;
+                                normalCount = normalCount - 1;
+                            } else if (data.get(position).getState().equals(getString(R.string.normal))) {
+                                absenceCount = absenceCount;
+                            }
+                            data.get(position).setImg(R.drawable.img_normal);
+                            data.get(position).setState(getString(R.string.normal));
+                            data.get(position).setTag(1);
+//                            normalCount = normalCount + 1;
+//                            totalCount = totalCount - 1;
+                            //需要数据传递，用下面方法；
+                            Message msg = new Message();
+                            msg.what = 5;
+                            mHandler.sendMessage(msg);
                         } else {
-                            normalCount = normalCount + 1;
+                            if (data.get(position).getState().equals(getString(R.string.absence))) {
+                                lateCount = lateCount + 1;
+                                absenceCount = absenceCount - 1;
+                            } else if (data.get(position).getState().equals(getString(R.string.late))) {
+                                lateCount = lateCount;
+                            } else if (data.get(position).getState().equals(getString(R.string.normal))) {
+                                lateCount = lateCount + 1;
+                                normalCount = normalCount - 1;
+                            }
+                            data.get(position).setImg(R.drawable.img_late);
+                            data.get(position).setState(getString(R.string.late));
+                            data.get(position).setTag(1);
+                            //需要数据传递，用下面方法；
+                            Message msg = new Message();
+                            msg.what = 5;
+                            mHandler.sendMessage(msg);
+//                            totalCount = totalCount - 1;
                         }
-                        //需要数据传递，用下面方法；
-                        Message msg = new Message();
-                        msg.what = 5;
-                        Bundle bundle = new Bundle();
-                        bundle.putString("a", chooseState[0]);
-                        msg.setData(bundle);
-                        mHandler.sendMessage(msg);
+
 
                     }
                 });

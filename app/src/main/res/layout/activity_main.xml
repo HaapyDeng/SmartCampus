@@ -308,7 +308,29 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingLeft="5dp"
-                    android:text="名学生，缺勤"
+                    android:text="名学生，正常"
+                    android:textColor="@color/background_top"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_nomal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:text="0"
+                    android:textColor="@color/red_text"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_absenceCo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:text="人，缺勤"
                     android:textColor="@color/background_top"
                     android:textSize="20dp" />
 

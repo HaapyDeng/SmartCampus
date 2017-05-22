@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        totalCount = 0;
+        absenceCount = 0;
+        normalCount = 0;
+        lateCount = 0;
         AsyncHttpClient.getDefaultInstance().websocket(wsUrl, "my-protocol", new AsyncHttpClient.WebSocketConnectCallback() {
             @Override
             public void onCompleted(Exception ex, final WebSocket webSocket) {
@@ -171,30 +175,61 @@ public class MainActivity extends AppCompatActivity {
                                 if (data.size() != 0) {
                                     data.clear();
                                 }
+                                totalCount = jsonArray.length();
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     UserBean user = new UserBean();
                                     JSONObject jsondata = jsonArray.getJSONObject(i);
-                                    user.setName(jsondata.getString("username"));
                                     state = jsondata.getInt("state");
-                                    switch (state) {
-                                        case 0:
-                                            user.setState(getString(R.string.absence));
-                                            user.setImg(R.drawable.img_absenteeism);
-                                            absenceCount = absenceCount + 1;
-                                            break;
+                                    if (!data.get(i).equals("")) {
+                                        if (data.get(i).getTag() != 5) {
+                                            switch (data.get(i).getTag()) {
+                                                case 0:
+                                                    user.setName(jsondata.getString("username"));
+                                                    user.setState(getString(R.string.absence));
+                                                    user.setImg(R.drawable.img_absenteeism);
+                                                    absenceCount = absenceCount + 1;
+                                                    break;
+                                                case 1:
+                                                    user.setName(jsondata.getString("username"));
+                                                    user.setState(getString(R.string.normal));
+                                                    user.setImg(R.drawable.img_normal);
+                                                    normalCount = normalCount + 1;
+                                                    break;
+                                                case 2:
+                                                    user.setName(jsondata.getString("username"));
+                                                    user.setState(getString(R.string.late));
+                                                    user.setImg(R.drawable.img_late);
+                                                    lateCount = lateCount + 1;
+                                                    break;
+                                            }
+                                        }
+                                    } else {
+                                        switch (state) {
+                                            case 0:
+                                                user.setName(jsondata.getString("username"));
+                                                user.setTag(5);
+                                                user.setState(getString(R.string.absence));
+                                                user.setImg(R.drawable.img_absenteeism);
+                                                absenceCount = absenceCount + 1;
+                                                break;
 
-                                        case 1:
-                                            user.setState(getString(R.string.normal));
-                                            user.setImg(R.drawable.img_normal);
-                                            normalCount = normalCount + 1;
-                                            break;
-                                        case 2:
-                                            user.setState(getString(R.string.late));
-                                            user.setImg(R.drawable.img_late);
-                                            lateCount = lateCount + 1;
-                                            break;
-                                        default:
-                                            break;
+                                            case 1:
+                                                user.setName(jsondata.getString("username"));
+                                                user.setTag(5);
+                                                user.setState(getString(R.string.normal));
+                                                user.setImg(R.drawable.img_normal);
+                                                normalCount = normalCount + 1;
+                                                break;
+                                            case 2:
+                                                user.setName(jsondata.getString("username"));
+                                                user.setTag(5);
+                                                user.setState(getString(R.string.late));
+                                                user.setImg(R.drawable.img_late);
+                                                lateCount = lateCount + 1;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                     }
 
                                     data.add(user);
@@ -296,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             data.get(position).setImg(R.drawable.img_normal);
                             data.get(position).setState(getString(R.string.normal));
-                            data.get(position).setTag(1);
+                            data.get(position).setTag(2);
 //                            normalCount = normalCount + 1;
 //                            totalCount = totalCount - 1;
                             //需要数据传递，用下面方法；
@@ -315,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             data.get(position).setImg(R.drawable.img_late);
                             data.get(position).setState(getString(R.string.late));
-                            data.get(position).setTag(1);
+                            data.get(position).setTag(3);
                             //需要数据传递，用下面方法；
                             Message msg = new Message();
                             msg.what = 5;

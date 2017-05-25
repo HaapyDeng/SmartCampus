@@ -30,7 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
     private TextView tv_english;
     private int lateCount = 0, normalCount = 0, absenceCount = 0;
-    private TextView total, late, absence, tv_nomal;
+    private TextView total, late, absence, tv_nomal, time_hour, time_year;
     private int tag = 5, totalCount = 0;
 
     @Override
@@ -69,6 +71,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //时间显示
+        time_hour = (TextView) findViewById(R.id.tv_time_hour);
+        time_year = (TextView) findViewById(R.id.tv_time_year);
+        //启动时间线程
+        new TimeThread().start();
+    }
+
+    public class TimeThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            do {
+                try {
+                    Thread.sleep(1000);
+                    Message msg = new Message();
+                    msg.what = 6;
+                    mHandler.sendMessage(msg);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (true);
+        }
     }
 
     Handler mHandler = new Handler() {
@@ -110,6 +135,14 @@ public class MainActivity extends AppCompatActivity {
                     absence.setText("" + (totalCount - lateCount - normalCount));
                     initView();
                     break;
+                case 6:
+                    long time = System.currentTimeMillis();
+                    Date date = new Date(time);
+                    SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy/MM/dd");
+                    time_hour.setText(format1.format(date));
+                    time_year.setText(format2.format(date));
+                    break;
                 default:
                     break;
             }
@@ -117,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    //测试模拟数据
     private void initData2() {
         for (int i = 0; i < 49; i++) {
             UserBean user = new UserBean();

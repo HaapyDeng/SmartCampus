@@ -44,6 +44,10 @@
             android:screenOrientation="landscape"
             android:configChanges="orientation"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" ></activity>
+        <activity android:name=".CountDateActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" ></activity>
     </application>
 
 </manifest>

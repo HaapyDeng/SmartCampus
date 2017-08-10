@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private int lateCount = 0, normalCount = 0, absenceCount = 0;
     private TextView total, late, absence, tv_nomal, time_hour, time_year;
     private int tag = 5, totalCount = 0;
-    private Button btn_count;
+    private Button btn_count,btn_count_date;
     private ImageView head_img;
 
     @Override
@@ -85,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this, CountActivity.class);
                 startActivity(intent);
+            }
+        });
+        btn_count_date = (Button)findViewById(R.id.btn_count_date);
+        btn_count_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent();
+                intent2.setClass(MainActivity.this, CountDateActivity.class);
+                startActivity(intent2);
             }
         });
         total.setText("" + totalCount);
@@ -488,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public String getLocalMacAddress() {
-        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         return info.getMacAddress();
     }

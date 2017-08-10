@@ -388,7 +388,23 @@
                     android:paddingLeft="5dp"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
-                    android:text="统计"
+                    android:text="考勤数据"
+                    android:background="@drawable/shape_corner"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/btn_count_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="考勤统计"
                     android:background="@drawable/shape_corner"
                     android:textColor="@color/white"
                     android:textSize="20dp" />

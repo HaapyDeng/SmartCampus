@@ -16,6 +16,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,25 +41,52 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private GridLayoutManager mGridLayoutManager;
     private ArrayList<UserBean> data = new ArrayList<UserBean>();
-    public static String wsUrl = "ws://192.168.1.116:9502";
+    public String wsUrl = "";
+    //    public static String wsUrl = "ws://192.168.1.116:9502";
     private int state = 0, id = 0;
     private MyAdapter mAdapter;
     private TextView tv_english;
     private int lateCount = 0, normalCount = 0, absenceCount = 0;
     private TextView total, late, absence, tv_nomal, time_hour, time_year;
     private int tag = 5, totalCount = 0;
+    private Button btn_count;
+    private ImageView head_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initData();
+        if (wsUrl.equals("")) {
+            final EditText et = new EditText(this);
+            new AlertDialog.Builder(MainActivity.this).setTitle("配置服务器地址:")
+                    .setView(et)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String input = et.getText().toString();
+                            wsUrl = "ws://" + input;
+                            initData();
+                        }
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
+        } else {
+            initData();
+        }
         initView();
         //显示统计人数
         total = (TextView) findViewById(R.id.tv_total);
         late = (TextView) findViewById(R.id.tv_late);
         absence = (TextView) findViewById(R.id.tv_absenceCount);
         tv_nomal = (TextView) findViewById(R.id.tv_nomal);
+        btn_count = (Button) findViewById(R.id.btn_count);
+        btn_count.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, CountActivity.class);
+                startActivity(intent);
+            }
+        });
         total.setText("" + totalCount);
         late.setText("" + lateCount);
         absence.setText("" + absenceCount);
@@ -164,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
+//        Toast.makeText(this, "wsUrl==>>" + wsUrl, Toast.LENGTH_SHORT).show();
         AsyncHttpClient.getDefaultInstance().websocket(wsUrl, "my-protocol", new AsyncHttpClient.WebSocketConnectCallback() {
                     @Override
                     public void onCompleted(Exception ex, final WebSocket webSocket) {

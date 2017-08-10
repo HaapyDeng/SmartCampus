@@ -39,7 +39,11 @@
         <activity
             android:name=".HomeWorkActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity android:name=".CountActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" ></activity>
     </application>
 
 </manifest>
